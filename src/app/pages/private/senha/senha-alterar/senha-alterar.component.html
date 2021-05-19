@@ -1,0 +1,38 @@
+<div class="row mt-4">
+    <div class="col-md-6 d-none d-md-block" style="height: 450px;">
+        <div class="text-center col-md-12 my-auto side-heder">
+            <h1>Alterar senha</h1>
+            <img src="../../../../assets/img/registerImage.png" class="my-4" alt="" width="400px">      
+        </div>
+    </div>
+<div class="col-md-6" style="margin-top: auto;">
+    <form class="p-1" [formGroup]="form">            
+        <div class="form-row">
+            <div class="form-group col-sm-12">
+                <label>Nova senha:</label>
+                <input type="password" class="form-control" formControlName="novaSenha" placeholder="Nova senha" (focusout)="validaSenha()"/>
+                <field-errors [control]="form.get('novaSenha')">
+                </field-errors>
+            </div>
+            <div class="form-group col-sm-12">
+                <label>Confirmar senha:</label>
+                <input type="password" class="form-control" formControlName="novaSenhaConfirma" placeholder="Confirmar senha" (focusout)="validaSenha()"/>
+                <field-errors [control]="form.get('novaSenhaConfirma')">
+                </field-errors>
+            </div>
+            <div class="form-group col-sm-12">
+                <label>Senha Atual:</label>
+                <input type="password" class="form-control" formControlName="senhaAtual" placeholder="Senha atual"/>
+                <field-errors [control]="form.get('senhaAtual')">
+                </field-errors>
+            </div>     
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <button class="btn btn-lg btn-success btn-block px-5" [disabled]="!form.valid" (click)="alterarSenha()">
+                    Salvar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

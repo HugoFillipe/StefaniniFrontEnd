@@ -1,0 +1,50 @@
+<app-titulo class="text-center" [titulo]="'Cursos'"></app-titulo>
+<div class="card rounded shadow-sm p-3">
+  <div class="d-flex">
+    <div class="flex-fill pr-3">      
+    </div>
+    <!-- <div class="input-group mb-2 mr-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text">Filtro: </div>
+      </div>
+      <input type="text" class="form-control" placeholder="Filtrar por nome" [(ngModel)]="filtro" >
+    </div> -->
+  </div>
+  <table class="table table-striped table-hover">
+    <thead class="thead-dark">
+      <tr>
+      <th>#</th>
+      <th>Nome</th>
+      <th class="d-none d-md-table-cell">Descrição</th>
+      <th>Aula</th>      
+      <th>Opção</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="cursos?.length">
+    <tr *ngFor="let curso of cursosFiltrados" style="cursor: pointer;">      
+      <td>{{curso.id}}</td>
+      <td>{{curso.nome}}</td>
+      <td class="d-none d-md-table-cell">{{curso.descricao}}</td> 
+      <td>
+        <div *ngIf="!curso.aulas.length">
+          Não informado
+        </div>
+        <div *ngIf="curso.aulas.length">           
+          {{curso.aulas[0].nome | uppercase}}        
+        </div>
+      </td>
+      <th class="d-none d-md-table-cell">
+        <button class="btn btn-sm btn-primary" tooltip="Matricular" (click)="matriculaCurso(curso)">
+        <i class="fa fa-graduation-cap"></i>
+      </button>
+    </th> 
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!cursos.length">
+    <tr>
+      <td colspan="8" class="text-center">
+        <h4>Nenhum curso encontrado!</h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>

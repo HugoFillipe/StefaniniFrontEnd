@@ -1,0 +1,18 @@
+<div class="d-flex align-items-center vh-100">
+	<div class="mx-auto text-center shadow-sm bg-white rounded p-5 my-5">	
+		<form class="form-signin" [formGroup]="loginForm" (ngSubmit)="login()">
+			<i class="fa fa-users mb-2"></i>
+			<h1 class="h3 mb-3 font-weight-normal">Entrar com</h1>
+
+			<label for="tx-email" class="sr-only">Email</label>
+			<input type="email" id="tx-email" class="form-control" formControlName="email" placeholder="Email">
+
+			<label for="pwd-senha" class="sr-only">Senha</label>
+			<input type="password" id="pwd-senha" class="form-control" formControlName="senha" placeholder="Senha">
+
+			<button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+			<p class="mt-4 mb-2 text-muted">Não tem login? Cadastre-se abaixo</p>
+			<a class="btn btn-lg btn-link btn-block" routerLink="/nova-conta" >Quero me cadastrar</a>
+		</form>
+	</div>	
+</div>

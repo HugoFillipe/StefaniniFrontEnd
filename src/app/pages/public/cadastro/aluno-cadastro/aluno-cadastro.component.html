@@ -1,0 +1,89 @@
+<div class="row mt-4">
+  <div class="col-md-6 d-none d-md-block" style="height: 450px;">
+      <div class="text-center col-md-12 my-auto side-heder">
+          <h1>Cadastro de Usuário</h1>
+          <img src="../../../../assets/img/registerImage.png" class="my-4" alt="" width="400px">      
+      </div>
+  </div>
+  
+  <div class="col-md-6" style="margin-top: auto;">
+      <form class="p-1" [formGroup]="form">            
+          <div class="form-row">
+              <div class="form-group col-sm-6">
+                  <label>Nome</label>
+                  <input type="text" class="form-control" formControlName="nome" placeholder="Insira o nome"/>
+                  <div *ngIf="f.nome.errors?.required" class="invalid-feedback">
+                      Nome é obrigatório.
+                  </div>
+                  <div *ngIf="f.nome.errors?.minlength" class="invalid-feedback">
+                      Nome deve ter no mínimo 3 caracteres.
+                  </div>
+                  <div *ngIf="f.nome.errors?.maxlength" class="invalid-feedback">
+                      Nome deve ter no máximo 50 caracteres.
+                  </div>
+              </div>
+              <div class="form-group col-sm-6">
+                  <label for="">Email</label>
+                  <input class="form-control" formControlName="email" type="text" placeholder="Insira um email."/>
+                  <div *ngIf="f.email.errors?.required" class="invalid-feedback" class="invalid-feedback">
+                      E-mail é obrigatório.
+                  </div>
+                  <div *ngIf="f.email.errors?.email && f.email.touched" class="invalid-feedback">
+                      Deve ser um endereço de e-mail válido
+                  </div>
+              </div>       
+          </div>
+          <div class="form-row">
+              <div class="form-group col-sm-6">
+                  <label for="">Formação</label>
+                  <input class="form-control" formControlName="formacao" type="text" placeholder="Insira sua formaçao"/>
+                  <div *ngIf="f.formacao.errors?.required && f.formacao.touched" class="invalid-feedback">
+                      Formaçao é obrigatório.
+                  </div>                    
+              </div>
+              <div class="form-group col-sm-6">
+                  <label for="">Idade</label>
+                  <input class="form-control" formControlName="idade" type="text" placeholder="Insira sua idade"/>
+                  <div *ngIf="f.idade.errors?.required && f.idade.touched" class="invalid-feedback">
+                      Idade é obrigatório.
+                  </div>                   
+              </div>                
+          </div>
+          <div class="form-row">
+              <div class="form-group col-sm-6">
+                  <label for="">Senha</label>
+                  <input class="form-control" formControlName="senha" type="password" placeholder="Digite uma Senha"/>
+                  <div *ngIf="f.senha.errors?.required && f.senha.touched" class="invalid-feedback">
+                      Senha é obrigatório.
+                  </div>
+                  <div *ngIf="f.senha.errors?.minlength && f.senha.touched" class="invalid-feedback">
+                      Senha deve ter no mínimo 6 caracteres.
+                  </div>
+              </div>
+              <div class="form-group col-sm-6">
+                  <label for="">Tipo de usuário</label>                    
+                  <select class="form-control" formControlName="tipo" type="text" placeholder="Digite uma tipo">                      
+                      <option [value]="2">Aluno</option>
+                  </select>
+                  <div *ngIf="f.tipo.errors?.required && f.tipo.touched" class="invalid-feedback">
+                      Tipo de usuario é obrigatório.
+                  </div>          
+              </div>        
+          </div>            
+          <div class="form-row">
+              <div class="form-group col-12">
+                  <button class="btn btn-lg btn-success btn-block px-5" (click)="registrar()">
+                      registrar
+                  </button>
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group col-12">
+                  <a class="btn btn-link btn-block" routerLink="/login">
+                      Já sou Cadastrado
+                  </a>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>

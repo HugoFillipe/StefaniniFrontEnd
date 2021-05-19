@@ -1,0 +1,34 @@
+<app-titulo class="text-center" [titulo]="'Alunos'"></app-titulo>
+<div class="card rounded shadow-sm p-3">
+  <div class="d-flex">
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text">Filtro: </div>
+      </div>
+      <input type="text" class="form-control" placeholder="Filtrar por Tema e Local" [(ngModel)]="filtro" >
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>                
+        <th>#</th>
+        <th class="d-none d-md-table-cell">Nome</th>
+        <th class="d-none d-md-table-cell">Idade</th>            
+        <th class="d-none d-md-table-cell">Email</th>  
+        <th class="d-none d-md-table-cell">Formação</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="alunos?.length">
+      <tr *ngFor="let aluno of alunosFiltrados">        
+        <td>{{aluno.id}}</td>
+        <td>{{aluno.nome}}</td>
+        <td>{{aluno.idade}}</td>
+        <td>{{aluno.email}}</td>
+        <td>{{aluno.formacao}}</td> 
+      </tr>
+    </tbody>    
+  </table> 
+</div>
+
+
+

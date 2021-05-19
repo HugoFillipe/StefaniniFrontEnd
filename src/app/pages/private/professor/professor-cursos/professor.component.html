@@ -1,0 +1,129 @@
+<app-titulo class="text-center" [titulo]="'Professores'"></app-titulo>
+<div class="card rounded shadow-sm p-3">
+  <div class="d-flex">
+    <div class="form-inline mr-auto">
+      <div class="input-group mb-2 mr-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Filtro: </div>
+        </div>
+        <input type="text" class="form-control" placeholder="Filtrar por nome" [(ngModel)]="filtro" >
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-outline-success" (click)="novoProfessor(template)">    
+        <i class="fas fa-plus-circle"></i>&nbsp;
+        Novo Professor
+      </button>
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th colSpan="2">Opções</th>       
+      </tr>
+    </thead>
+    <tbody *ngIf="professores?.length">
+      <tr *ngFor="let professor of professoresFiltrados">        
+        <td>{{professor.id}}</td>
+        <td>{{professor.nome}}</td>
+        <td>{{professor.email}}</td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-primary" tooltip="mostrar cursos" *ngIf="professor?.cursos?.length" (click)="mostrarCursos(professor)">
+              <i class="fa fa-info"></i>
+            </button>
+            <button class="btn btn-sm btn-success" *ngIf="professor.email == user.email" tooltip="Editar" (click)="editarProfessor(professor, template)">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" *ngIf="professor.email == user.email" tooltip="Excluir" (click)="excluirProfessor(professor, confirm)">
+              <i class="fa fa-eraser"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>  
+  </table> 
+</div>
+
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+role="dialog" aria-labelledby="dialog-sizes-name1">
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastro</h4>
+      <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">      
+      <form [formGroup]="formulario">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Nome do Professor</label>
+            <input type="text" class="form-control" formControlName="nome" placeholder="Digite um nome">
+            <div *ngIf="f.nome.errors?.required" class="invalid-feedback">
+              Nome do Professor é obrigatório.
+            </div>           
+          </div>
+          <div class="form-group col-md-6">
+            <label>Email</label>
+            <input type="text" class="form-control" formControlName="email" placeholder="nome@email.com">
+            <div *ngIf="f.email.errors?.required" class="invalid-feedback" class="invalid-feedback">
+              Email é obrigatório.
+            </div>
+            <div *ngIf="f.email.errors?.email && f.email.touched" class="invalid-feedback">
+              Deve ser um endereço de e-mail válido
+            </div>
+          </div>       
+        </div>  
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Senha</label>
+            <input type="password" class="form-control" formControlName="senha">
+            <div *ngIf="f.senha.errors?.required" class="invalid-feedback">
+              Senha é obrigatório.
+            </div>
+          </div>
+    
+        </div>
+      </form>      
+    </div>
+    <div class="modal-footer d-flex">
+      <button class="btn btn-secondary" (click)="template.hide()">
+        Fechar
+      </button>
+      <button class="btn btn-success ml-auto" [disabled]="!formulario.valid" (click)="salvarAlteracao(template)">
+        Salvar Alterações
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">
+          Deletando Professor
+        </h4>
+        <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ bodyDeletarProfessor }}</p>
+      </div>    
+      <div class="modal-footer btn-group d-flex">      
+        <button type="button" class="btn btn-outline-danger" (click)="confirm.hide()">
+          CENCELAR
+        </button>
+        <button type="button" class="btn btn-outline-success" (click)="confirmeDelete(confirm)">
+          DELETAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

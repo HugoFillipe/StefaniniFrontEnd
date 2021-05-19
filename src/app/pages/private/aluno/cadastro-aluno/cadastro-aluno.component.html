@@ -1,0 +1,162 @@
+<app-titulo class="text-center" [titulo]="'Alunos'"></app-titulo>
+<div class="card rounded shadow-sm p-3">
+  <div class="d-flex">    
+    <div class="form-inline mr-auto"></div>
+    <div>
+      <button class="btn btn-outline-success mb-2" (click)="novoAluno(template)">    
+        <i class="fas fa-plus-circle"></i>&nbsp;
+        Novo Aluno
+      </button>
+    </div>
+  </div>
+  <div class="input-group mb-2 mr-2">
+    <div class="input-group-prepend">
+      <div class="input-group-text">Filtro: </div>
+    </div>
+    <input type="text" class="form-control" placeholder="Filtrar por nome" [(ngModel)]="filtro" >
+  </div>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>       
+        <th>#</th>
+        <th>Nome</th>
+        <th>Idade</th>
+        <th>Email</th>        
+        <th>Formação</th>
+        <th>Cursos</th>
+        <th colSpan="2">Opções</th>           
+      </tr>
+    </thead>
+    <tbody *ngIf="alunos?.length">
+      <tr *ngFor="let aluno of alunosFiltrados">        
+        <td>{{aluno.id}}</td>
+        <td>{{aluno.nome}}</td>
+        <td>{{aluno.idade}}</td>        
+        <td>{{aluno.email}}</td>
+        <td>{{aluno.formacao}}</td>        
+        <td>
+          <div *ngIf="!aluno.cursos.length">
+            Não informado
+          </div>
+          <div *ngIf="aluno.cursos.length">           
+            <button class="btn btn-sm btn-primary" tooltip="mostrar cursos" *ngIf="aluno?.cursos?.length" (click)="mostrarCursos(aluno)">
+              <i class="fa fa-info"></i>
+            </button>        
+          </div>
+        </td>
+        <td>          
+          <div class="btn-group">
+            <button class="btn btn-sm btn-success" *ngIf="user.tipo == 1 || (aluno.email == user.email)" tooltip="Editar" (click)="editarAluno(aluno, template)">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" *ngIf="user.tipo == 1 || (aluno.email == user.email)" tooltip="Excluir" (click)="excluirAluno(aluno, template)">
+              <i class="fa fa-eraser"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>  
+  </table> 
+</div>
+
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+role="dialog" aria-labelledby="dialog-sizes-name1">
+<div class="modal-dialog modal-lg">
+  <div class="modal-content" *ngIf="modal == 1">
+    <div class="modal-header">
+      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastro</h4>
+      <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="form">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Nome</label>
+            <input type="text" class="form-control" [ngClass]="cssValidator(f.nome)" formControlName="nome" placeholder="Digite um nome">
+            <div *ngIf="f.nome.errors?.required" class="invalid-feedback" class="invalid-feedback">
+              Nome é obrigatório.
+            </div>             
+          </div>
+          <div class="form-group col-md-6">
+            <label>Email</label>
+            <input type="email" class="form-control" [ngClass]="cssValidator(f.email)" placeholder="Digite um email" formControlName="email">
+            <div *ngIf="f.email.errors?.required" class="invalid-feedback" class="invalid-feedback">
+              Email é obrigatório.
+            </div>
+            <div *ngIf="f.email.errors?.email && f.email.touched" class="invalid-feedback">
+              Deve ser um endereço de e-mail válido
+            </div>              
+          </div>                
+        </div>           
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Idade</label>
+            <input type="text" class="form-control" [ngClass]="cssValidator(f.idade)" placeholder="Digite sua idade" formControlName="idade">
+            <div *ngIf="f.idade.errors?.required" class="invalid-feedback" class="invalid-feedback">
+              Idade é obrigatório.
+            </div> 
+          </div>
+          <div class="form-group col-md-6">
+            <label>Formação</label>
+            <input type="text" class="form-control" [ngClass]="cssValidator(f.formacao)" placeholder="Digite sua formação" formControlName="formacao">              
+          </div>
+          <div *ngIf="f.formacao.errors?.required" class="invalid-feedback" class="invalid-feedback">
+            Formação é obrigatório.
+          </div>                                 
+        </div> 
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Senha</label>
+            <input type="password" class="form-control" [ngClass]="cssValidator(f.senha)" placeholder="Digite sua senha" formControlName="senha">
+            <div *ngIf="f.nome.errors?.required" class="invalid-feedback" class="invalid-feedback">
+              Senha é obrigatório.
+            </div>                         
+          </div>                 
+        </div>                   
+      </form>      
+      <div class="modal-footer d-flex">
+        <button class="btn btn-secondary" (click)="template.hide()">
+          Fechar
+        </button>
+        <button class="btn btn-success ml-auto" [disabled]="!form.valid" (click)="salvarAlteracao(template)">
+          Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="modal == 2" class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">
+        Deletando Curso
+      </h4>
+      <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>{{ bodyDeletarCurso }}</p>
+    </div>    
+    <div class="modal-footer btn-group d-flex">      
+      <button type="button" class="btn btn-outline-danger" (click)="template.hide()">
+        CENCELAR
+      </button>
+      <button type="button" class="btn btn-outline-success" (click)="confirmeDelete(template)">
+        DELETAR
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Tem certeza que quer deletar o curso {{this.cursoAtual.nome}}?</p>
+    <button type="button" class="btn btn-default" (click)="confirmDeleteCurso()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="declineDeleteCurso()">Não</button>
+  </div>
+</ng-template>
+
+
+
